@@ -21,6 +21,8 @@ model User {
   first_name  String @db.VarChar(40)
   last_name  String @db.VarChar(40)
   addresses Address[]
+  cart Cart[]
+  orders Order[]
 }
 
 model Address {
@@ -32,4 +34,41 @@ model Address {
   street String @db.VarChar(40)
   house_number Int
   postcode Int
+}
+
+model Product {
+  id Int @default(autoincrement()) @id
+  name String @db.VarChar(40)
+  image String
+  description String @db.VarChar(512)
+  uuid String
+  users_in_cart Cart[]
+  orders OrderProducts[]
+}
+
+model Cart {
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  product Product @relation(fields: [product_id], references: [id])
+  product_id Int
+  quantity Int
+
+  @@id([user_id, product_id])
+}
+
+model Order {
+  id Int @default(autoincrement()) @id
+  user User? @relation(fields: [user_id], references: [id])
+  user_id Int?
+  products OrderProducts[]
+}
+
+model OrderProducts {
+  order Order @relation(fields: [order_id], references: [id])
+  order_id Int
+  product Product @relation(fields: [product_id], references: [id])
+  product_id Int
+  quantity Int
+
+  @@id([order_id, product_id])
 }
