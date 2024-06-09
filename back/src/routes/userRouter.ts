@@ -10,9 +10,12 @@ import { getAllUserController,
          clearCartController,
          getCartController
          } from "../controllers/userController";
+import auth from "../middleWare/auth";
 import express from "express";
 
 const router = express.Router();
+
+router.use(auth);
 
 router.get('/', getAllUserController);
 router.post('/', addUserController);
