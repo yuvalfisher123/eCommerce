@@ -3,7 +3,12 @@ import { getAllUserSevice,
          addUserAddressService,
          getUserSevice,
          updateUserService,
-         deleteUserService } from "../services/userService";
+         deleteUserService,
+         addToCartService,
+         changeQuantityService,
+         deleteProductService,
+         getCartService,
+         clearCartService } from "../services/userService";
 import { Request, Response } from "express";
 
 export const getAllUserController = async (req : Request, res : Response) => {
@@ -57,3 +62,48 @@ export const deleteUserController = async (req : Request, res : Response) => {
         res.send('server error').status(500);
     }
 }
+
+export const addToCartController = async (req : Request, res : Response) => {
+    try {
+        await addToCartService(req, res)
+        res.send('product added to cart').status(200);
+    } catch (error) {
+        res.send('server error').status(500);
+    }
+}
+
+export const changeQuantityController = async (req : Request, res : Response) => {
+    try {
+        await changeQuantityService(req, res)
+        res.send('product quantity updated').status(200);
+    } catch (error) {
+        res.send('server error').status(500);
+    }
+}
+
+export const deleteProductController = async (req : Request, res : Response) => {
+    try {
+        await deleteProductService(req, res)
+        res.send('product deleted from cart').status(200);
+    } catch (error) {
+        res.send('server error').status(500);
+    }
+}
+
+export const clearCartController = async (req : Request, res : Response) => {
+    try {
+        await clearCartService(req, res)
+        res.send('cart cleared').status(200);
+    } catch (error) {
+        res.send('server error').status(500);
+    }
+}
+
+export const getCartController = async (req : Request, res : Response) => {
+    try {
+        res.json(await getCartService(req, res)).status(200);
+    } catch (error) {
+        res.send('server error').status(500);
+    }
+}
+

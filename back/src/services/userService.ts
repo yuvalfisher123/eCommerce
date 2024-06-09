@@ -3,11 +3,13 @@ import { Request, Response } from "express";
 
 const userRepository = new PrismaClient().user;
 const addressRepository = new PrismaClient().address;
+const cartRepository = new PrismaClient().cart;
 
 export const getAllUserSevice = async (req : Request, res : Response) => {
     return await userRepository.findMany({
         where: req.body,
         select: {
+            id: true,
             email: true,
             username: true,
             first_name: true,
@@ -67,3 +69,59 @@ export const deleteUserService = async (req : Request, res : Response) => {
         }
     });
 } 
+
+export const addToCartService = async (req : Request, res : Response) => {
+    await cartRepository.create({
+        data: {
+            product_id: +req.body.product_id,
+            quantity: +req.body.quantity,
+            user_id: +req.params.userId
+        }
+    });
+} 
+
+export const changeQuantityService = async (req : Request, res : Response) => {
+    await cartRepository.update({
+        where : {
+            user_id_product_id: {
+                product_id: +req.params.productId,
+                user_id: +req.params.userId
+            }
+        },
+        data: {
+            quantity: +req.body.quantity
+        }
+    });
+}
+
+export const deleteProductService = async (req : Request, res : Response) => {
+    await cartRepository.delete({
+        where : {
+            user_id_product_id: {
+                product_id: +req.params.productId,
+                user_id: +req.params.userId
+            }
+        }
+    });
+}
+
+export const clearCartService = async (req : Request, res : Response) => {
+    await cartRepository.deleteMany({
+        where : {
+            user_id: +req.params.userId
+        }
+    });
+}
+
+export const getCartService = async (req : Request, res : Response) => {
+    return await cartRepository.findMany({
+        where : {
+            user_id: +req.params.userId
+        },
+        select : {
+            user_id: true,
+            product: true,
+            quantity: true
+        }
+    });
+}
