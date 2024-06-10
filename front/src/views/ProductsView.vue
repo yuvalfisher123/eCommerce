@@ -3,18 +3,16 @@
     <div class="card-group d-flex justify-content-center">
       <productCard
       class="m-3"
-       v-for="(product, index) in products" :key="product.id"
-       :name="product.name+index" 
+       v-for="product in productsOnPage" :key="product.id"
+       :name="product.name" 
        :description="product.description" 
        :image="product.image"
        :price="product.price"/>
     </div>
   <ul class="pagination mx-auto d-flex justify-content-center">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    <li v-if="page != 1" class="page-item"><a class="page-link" @click="page = page - 1" href="#">Previous</a></li>
+    <li class="page-item" v-for="index in Math.ceil(products.length / 20)" :key="index"><a @click="page = index" class="page-link" href="#">{{index}}</a></li>
+    <li v-if="page != Math.ceil(products.length / 20)" class="page-item"><a class="page-link" @click="page = page + 1" href="#">Next</a></li>
   </ul>
 
   </div>
@@ -32,7 +30,8 @@ export default {
   },
   data() {
     return {
-      products: []
+      products: [],
+      page: 1
     }
   },
   methods: {
@@ -40,8 +39,13 @@ export default {
       this.products = await api.getProducts();
     }
   },
-  async mounted() {
-    this.loadData();
+  async created() {
+    await this.loadData();
+  },
+  computed: {
+    productsOnPage() {
+      return this.products.slice((this.page-1)*20, this.page*20)
+    }
   }
 }
 </script>
