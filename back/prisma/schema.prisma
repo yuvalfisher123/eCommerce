@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique @db.VarChar(40)
+  username String @unique @db.VarChar(40)
+  password String 
+  first_name  String @db.VarChar(40)
+  last_name  String @db.VarChar(40)
+  addresses Address[]
+  cart Cart[]
+  orders Order[]
+  creditCards CreditCard[]
+}
+
+model Address {
+  id        Int     @default(autoincrement()) @id
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id Int 
+  country String @db.VarChar(40) 
+  city String @db.VarChar(40)
+  street String @db.VarChar(40)
+  house_number Int
+  postcode Int
+  orders Order[]
+}
+
+model Product {
+  id Int @default(autoincrement()) @id
+  name String @db.VarChar(40)
+  price Int
+  image String
+  description String @db.VarChar(512)
+  uuid String?
+  users_in_cart Cart[]
+  orders OrderProducts[]
+}
+
+model Cart {
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id Int
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product_id Int
+  quantity Int
+
+  @@id([user_id, product_id])
+}
+
+model Order {
+  id Int @default(autoincrement()) @id
+  user User? @relation(fields: [user_id], references: [id])
+  user_id Int?
+  status String @db.VarChar(40)
+  payment CreditCard @relation(fields: [payment_id], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  payment_id Int
+  address Address @relation(fields: [address_id], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  address_id Int
+  products OrderProducts[]
+}
+
+model OrderProducts {
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  order_id Int
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product_id Int
+  quantity Int
+
+  @@id([order_id, product_id])
+}
+
+model CreditCard {
+  id Int @default(autoincrement()) @id
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id Int 
+  card_number Int
+  cvc Int
+  name_of_holder String
+  experation DateTime
+  orders Order[]
+}
