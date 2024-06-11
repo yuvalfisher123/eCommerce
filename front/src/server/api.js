@@ -5,4 +5,7 @@ export default {
         const formatedSearch = search || '';
         return (await axiosInstance.get(`/products?from_idx=${startIdx || 0}&search=${formatedSearch}`)).data;
     },
+    login: async (user, pass) => {
+        return (await axiosInstance.post(`/login`, {username : user, password : pass}));
+    },
 }

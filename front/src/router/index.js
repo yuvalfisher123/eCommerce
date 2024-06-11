@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
 
 Vue.use(VueRouter)
 
@@ -19,13 +20,17 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/ProductsView.vue')
     }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   }
 ]
 
 const router = new VueRouter({
   routes,
   mode: 'history',
-  
 })
 
 export default router
