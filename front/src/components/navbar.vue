@@ -13,8 +13,8 @@
                 </ul> 
                 <h1 class="m-auto text-light">BUYSTUFF.MONEY</h1>
                 <form class="d-flex">
-                    <input class="form-control mx-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
+                    <input class="form-control mx-2" type="text" @keydown.enter.prevent="search" placeholder="Search" aria-label="Search" v-model="query">
+                    <button class="btn btn-outline-light" type="button" @click="search">Search</button>
                 </form>
             </div>
         </nav>
@@ -24,7 +24,23 @@
   <script>
   export default {
     name: 'navigation-bar',
+    data() {
+    return {
+        query:'' 
+    }
+  },
+  methods: {
+    search() {
+        const currentPath = this.$route.fullPath;
+        const nextPath = this.$router.resolve({name: 'products', query:{search: this.query}}).route.fullPath;
+
+        if (currentPath !== nextPath) {
+            this.$router.replace(nextPath);
+        }
+    },
   }
+}
+  
   </script>
   
   <style scoped>

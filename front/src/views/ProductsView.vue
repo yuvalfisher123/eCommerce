@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async loadData() {
-      this.products = await api.getProducts();
+      this.products = await api.getProducts(0, this.$route.query?.search);
     }
   },
   async created() {
@@ -46,6 +46,11 @@ export default {
     productsOnPage() {
       return this.products.slice((this.page-1)*20, this.page*20)
     }
-  }
+  },
+  watch: {
+    async '$route'() {
+      await this.loadData()
+    }
+  },
 }
 </script>
