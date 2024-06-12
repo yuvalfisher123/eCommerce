@@ -10,6 +10,18 @@
                     <li class="nav-item">
                     <a class="nav-link" href="/products">products</a>
                     </li>
+
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown">Profile</a>
+                      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li v-if="isLoged"><a class="dropdown-item" href="login">Sign In</a></li>
+                        <div v-else>
+                          <li><p class="dropdown-item disabled mb-2">hello {{ stateData.first_name }}</p></li>
+                          <li><button @click="logOut" class="dropdown-item">Sign Out</button></li>
+                        </div>
+                        <li><a class="dropdown-item" href="profile">View Profile</a></li>
+                      </ul>
+                    </li>
                 </ul> 
                 <h1 class="m-auto text-light">BUYSTUFF.MONEY</h1>
                 <form class="d-flex">
@@ -22,11 +34,14 @@
   </template>
   
   <script>
+  import { mapGetters} from 'vuex';
+  
   export default {
     name: 'navigation-bar',
     data() {
     return {
-        query:'' 
+        query:'',
+        stateData: false
     }
   },
   methods: {
@@ -38,7 +53,22 @@
             this.$router.replace(nextPath);
         }
     },
-  }
+    logOut() {
+      localStorage.removeItem('token');
+      this.$store.commit('ADD_USER_DATA', {});
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser']),
+    isLoged() {
+      return Object.keys(this.stateData).length === 0;
+    },
+  },
+  watch: {
+    getUser : function (user) {
+      this.stateData = user;  
+    }
+  },
 }
   
   </script>
