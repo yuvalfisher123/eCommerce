@@ -7,12 +7,22 @@
 
 <script>
   import navigation from '@/components/navbar.vue'
+  import api from './server/api';
 
   export default {
     name: 'main-app',
     components: {
       navigation
-    }
+    },
+    async created() {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        const data = (await api.getUserData()).data;
+
+        this.$store.commit('ADD_USER_DATA', data);
+      }
+    },
   }
 </script>
 

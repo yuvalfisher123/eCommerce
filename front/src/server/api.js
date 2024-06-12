@@ -8,4 +8,7 @@ export default {
     login: async (user, pass) => {
         return (await axiosInstance.post(`/login`, {username : user, password : pass}));
     },
+    getUserData: async () => {
+        return (await axiosInstance.get(`/users`));
+    }
 }
