@@ -26,14 +26,19 @@
         </div>
       </div>
 
+      <div class="d-flex justify-content-between col-11 py-2 ps-3">
+        <h3 class="text-start offset-1">Addresses:</h3>
+        <button class="btn btn-dark">Add Address</button>
+      </div>
+
       <div class="accordion offset-1 col-10">
         <div v-for="address in addresses" :key="address.id" class="accordion-item">
           <h2 class="accordion-header collapsed">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#'+address.id+'colapse'">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#address'+address.id+'colapse'">
               {{ address.country }} {{ address.city }}
             </button>
           </h2>
-          <div :id="address.id+'colapse'" class="accordion-collapse collapse">
+          <div :id="'address'+address.id+'colapse'" class="accordion-collapse collapse">
             <div class="accordion-body d-flex justify-content-between">
             <div class="text-start">
               <span class="fw-bold">Address: </span>
@@ -49,6 +54,34 @@
         </div>
       </div>
 
+      <div class="d-flex justify-content-between mt-5 col-11 py-2 ps-3">
+        <h3 class="text-start offset-1">Credit Cards:</h3>
+        <button class="btn btn-dark">Add Credit Card</button>
+      </div>
+
+      <div class="accordion offset-1 col-10">
+        <div v-for="card in cards" :key="card.id" class="accordion-item">
+          <h2 class="accordion-header collapsed">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#card'+card.id+'colapse'">
+              {{ card.card_number }}
+            </button>
+          </h2>
+          <div :id="'card'+card.id+'colapse'" class="accordion-collapse collapse">
+            <div class="accordion-body d-flex justify-content-between">
+            <div class="text-start">
+              <span class="fw-bold">card: </span>
+              <span>{{  card.card_number }}, <br></span>
+              <span class="fw-bold">cvc: </span>
+              <span>{{  card.cvc }}, <br></span>
+              <span class="fw-bold">name: </span>
+              <span>{{  card.name_of_holder }}, <br></span>
+              <span class="fw-bold">experation: </span>
+              <span>{{  card.experation }}, <br></span>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
 
     </form>
   </div>
