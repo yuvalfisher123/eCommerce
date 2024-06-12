@@ -10,5 +10,5 @@ export default {
     },
     getUserData: async () => {
         return (await axiosInstance.get(`/users`));
-    }
+    },
 }
