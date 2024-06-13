@@ -16,5 +16,8 @@ export default {
     },
     addAddress: async (address) => {
         return (await axiosInstance.post('users/address', address));
+    },
+    addCreditCard: async (card) => {
+        return (await axiosInstance.post('users/cards', card));
     }
 }

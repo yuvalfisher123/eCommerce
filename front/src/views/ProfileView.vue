@@ -69,7 +69,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+              <h5 class="modal-title">Add Address</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -115,10 +115,9 @@
         </div>
       </div>
 
-
       <div class="d-flex justify-content-between mt-5 col-11 py-2 ps-3">
         <h3 class="text-start offset-1">Credit Cards:</h3>
-        <button class="btn btn-dark">Add Credit Card</button>
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#cardModal">Add Credit Card</button>
       </div>
 
       <div class="accordion offset-1 col-10">
@@ -141,6 +140,50 @@
               <span>{{  card.experation }}, <br></span>
             </div>
           </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="cardModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Credit Card</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form class="p-5 m-0" @submit.prevent="addCard">
+                <div class="row mb-3 align-items-center">
+                  <label for="numberInput" class="col-2 col-form-label">Card Number</label>
+                  <div class="col-9 ms-1">
+                    <input type="text" v-model="newNumber" class="form-control" id="numberInput" required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="cvcInput" class="col-2 col-form-label">CVC</label>
+                  <div class="col-9 ms-1">
+                    <input type="number"  v-model="newCvc" class="form-control" id="cvcInput"  required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="nameInput" class="col-2 col-form-label">Name</label>
+                  <div class="col-9 ms-1">
+                    <input type="text"  v-model="newName" class="form-control" id="nameInput"  required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="exparationInput" class="col-2 col-form-label">Exparation</label>
+                  <div class="col-9 ms-1">
+                    <input type="date"  v-model="newExparation" class="form-control" id="exparationInput" required>
+                  </div>
+                </div> 
+
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-dark">Save changes</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -169,6 +212,10 @@ export default {
       newStreet: '',
       newHouseNumber: '',
       newPostcode: '',
+      newNumber: '',
+      newCvc: '',
+      newExparation: '',
+      newName: '',
     }
   },
   computed: {
@@ -219,8 +266,22 @@ export default {
       this.newStreet = '';
       this.newHouseNumber = '';
       this.newPostcode = '';
+    },
+    async addCard() {
+      const card = {
+        card_number: this.newNumber,
+        cvc: this.newCvc,
+        name_of_holder: this.newName,
+        experation: (new Date(this.newExparation)).toISOString()
+      }
 
+      await api.addCreditCard(card);
+      this.cards.push(card);
 
+      this.newNumber = '';
+      this.newCvc = '';
+      this.newName = '';
+      this.newExparation = '';
     }
   },
   watch: {
