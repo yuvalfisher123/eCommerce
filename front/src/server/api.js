@@ -11,4 +11,7 @@ export default {
     getUserData: async () => {
         return (await axiosInstance.get(`/users`));
     },
+    updateUser : async (user) => {
+        return (await axiosInstance.patch('/users', user));
+    }
 }

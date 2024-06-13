@@ -18,8 +18,8 @@
                         <div v-else>
                           <li><p class="dropdown-item disabled mb-2">hello {{ stateData.first_name }}</p></li>
                           <li><button @click="logOut" class="dropdown-item">Sign Out</button></li>
-                        </div>
-                        <li><a class="dropdown-item" href="profile">View Profile</a></li>
+                          <li><a class="dropdown-item" href="profile">View Profile</a></li>
+                        </div> 
                       </ul>
                     </li>
                 </ul> 
