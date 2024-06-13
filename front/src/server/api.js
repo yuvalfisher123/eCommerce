@@ -19,5 +19,8 @@ export default {
     },
     addCreditCard: async (card) => {
         return (await axiosInstance.post('users/cards', card));
+    },
+    addUser: async (user) => {
+        return (await axiosInstance.post('/login/register', user));
     }
 }
