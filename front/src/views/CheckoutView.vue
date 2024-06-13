@@ -4,12 +4,12 @@
       <form @submit.prevent="buy">
         <h1 class="text-start mb-0 mt-5">Address: </h1>
         <select v-model="address" id="addressSelect" class="form-select form-select-lg mb-5 "  required>
-          <option v-for="address in getUser.addresses" :value="address.id">{{ address.street }},
+          <option v-for="address in getUser.addresses" :key="'address'+address.id" :value="address.id">{{ address.street }},
              {{ address.city }}, {{ address.country }}</option>
         </select>
         <h1 class="text-start mb-0 mt-5">Credit Card: </h1>
         <select v-model="card" id="cardSelect" class="form-select form-select-lg mb-5"  required>
-          <option v-for="card in getUser.creditCards" :value="card.id">{{ card.card_number}}</option>
+          <option v-for="card in getUser.creditCards" :key="'card'+card.id" :value="card.id">{{ card.card_number}}</option>
         </select>
       
       <button type="submit" class="btn btn-dark">Place Order</button>
