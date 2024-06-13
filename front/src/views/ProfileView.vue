@@ -39,7 +39,7 @@
 
       <div class="d-flex justify-content-between col-11 py-2 ps-3">
         <h3 class="text-start offset-1">Addresses:</h3>
-        <button class="btn btn-dark">Add Address</button>
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addressModal">Add Address</button>
       </div>
 
       <div class="accordion offset-1 col-10">
@@ -61,6 +61,56 @@
               <span>{{  address.postcode }} </span>
             </div>
           </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="addressModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form class="p-5 m-0" @submit.prevent="addAddress">
+                <div class="row mb-3 align-items-center">
+                  <label for="countryInput" class="col-2 col-form-label">Country</label>
+                  <div class="col-9 ms-1">
+                    <input type="text" v-model="newCountry" class="form-control" id="countryInput" required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="cityInput" class="col-2 col-form-label">City</label>
+                  <div class="col-9 ms-1">
+                    <input type="text"  v-model="newCity" class="form-control" id="cityInput"  required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="streetInput" class="col-2 col-form-label">Street</label>
+                  <div class="col-9 ms-1">
+                    <input type="text"  v-model="newStreet" class="form-control" id="streetInput"  required>
+                  </div>
+                </div>
+                <div class="row mb-3 align-items-center">
+                  <label for="houseNumberInput" class="col-2 col-form-label">House Number</label>
+                  <div class="col-9 ms-1">
+                    <input type="number"  v-model="newHouseNumber" class="form-control" id="houseNumberInput" required>
+                  </div>
+                </div> 
+                <div class="row mb-3 align-items-center">
+                  <label for="postcodeInput" class="col-2 col-form-label">Postcode</label>
+                  <div class="col-9 ms-1">
+                    <input type="number" v-model="newPostcode" class="form-control" id="postcodeInput" required>
+                  </div>
+                </div> 
+
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-dark">Save changes</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -114,6 +164,11 @@ export default {
       addresses: [],
       cards: [],
       isInEditMode: false,
+      newCountry: '',
+      newCity: '',
+      newStreet: '',
+      newHouseNumber: '',
+      newPostcode: '',
     }
   },
   computed: {
@@ -146,6 +201,26 @@ export default {
       });
 
       this.isInEditMode = false;
+    },
+    addAddress() {
+      const address = {
+        country: this.newCountry,
+        city: this.newCity,
+        street: this.newStreet,
+        house_number: this.newHouseNumber,
+        postcode: this.newPostcode
+      }
+
+      api.addAddress(address);
+      this.addresses.push(address);
+
+      this.newCountry = '';
+      this.newCity = '';
+      this.newStreet = '';
+      this.newHouseNumber = '';
+      this.newPostcode = '';
+
+
     }
   },
   watch: {

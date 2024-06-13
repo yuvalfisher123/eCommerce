@@ -13,5 +13,8 @@ export default {
     },
     updateUser : async (user) => {
         return (await axiosInstance.patch('/users', user));
+    },
+    addAddress: async (address) => {
+        return (await axiosInstance.post('users/address', address));
     }
 }
