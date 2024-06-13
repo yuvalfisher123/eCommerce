@@ -1,5 +1,16 @@
 <template>
   <div class="products">
+    <div class="dropdown d-flex">
+      <button class="btn btn-dark dropdown-toggle ms-4 mt-4" type="button" data-bs-toggle="dropdown">
+        Order By
+      </button>
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" @click="sorter = 'price'; invert = -1">Price Low to High</button></li>
+        <li><button class="dropdown-item" @click="sorter = 'price'; invert = 1">Price High to Low</button></li>
+        <li><button class="dropdown-item" @click="sorter = 'name'; invert = 1">Name A-Z</button></li>
+        <li><button class="dropdown-item" @click="sorter = 'name'; invert = -1">Name Z-A</button></li>
+      </ul>
+    </div>
     <div class="card-group d-flex justify-content-center">
       <productCard
       class="m-3"
@@ -32,7 +43,9 @@ export default {
   data() {
     return {
       products: [],
-      page: 1
+      page: 1,
+      sorter: 'name',
+      invert: 1
     }
   },
   methods: {
@@ -45,7 +58,10 @@ export default {
   },
   computed: {
     productsOnPage() {
-      return this.products.slice((this.page-1)*20, this.page*20)
+      return this.sortedProducts.slice((this.page-1)*20, this.page*20)
+    },
+    sortedProducts() {
+      return this.products.sort((a,b) => this.invert*String(a[this.sorter]).localeCompare(String(b[this.sorter])));
     }
   },
   watch: {
