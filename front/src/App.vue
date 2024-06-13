@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <navigation />
-    <router-view/>
+    <router-view id="view"/>
     <button id="feedbackButton" type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">send feedback</button>
 
     <div class="modal fade" id="feedbackModal" tabindex="-1">
@@ -93,6 +93,10 @@ nav a.router-link-exact-active {
   position: static;
   bottom: 0;
   left: 46vw;
+}
+
+#view {
+  height: 85vh;
 }
 
 </style>
