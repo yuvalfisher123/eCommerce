@@ -7,7 +7,8 @@
        :name="product.name" 
        :description="product.description" 
        :image="product.image"
-       :price="product.price"/>
+       :price="product.price"
+       :productId="product.id"/>
     </div>
   <ul class="pagination mx-auto d-flex justify-content-center">
     <li v-if="page != 1" class="page-item"><a class="page-link" @click="page = page - 1" href="#">Previous</a></li>

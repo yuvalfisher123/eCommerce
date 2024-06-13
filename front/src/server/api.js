@@ -22,5 +22,17 @@ export default {
     },
     addUser: async (user) => {
         return (await axiosInstance.post('/login/register', user));
-    }
+    },
+    addToUserCart: async (productId, quantity) => {
+        return (await axiosInstance.post('/users/cart', {product_id: productId, quantity: quantity}))
+    },
+    deleteFromUserCart: async (productId) => {
+        return (await axiosInstance.delete(`/users/cart/${productId}`))
+    },
+    makeOrder: async (paymentId, addressId) => {
+        return (await axiosInstance.post(`/orders`, {payment_id: paymentId, address_id: addressId}));
+    },
+    clearCart: async () => {
+        return (await axiosInstance.delete(`/users/cart`));
+    },
 }

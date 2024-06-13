@@ -249,7 +249,7 @@ export default {
 
       this.isInEditMode = false;
     },
-    addAddress() {
+    async addAddress() {
       const address = {
         country: this.newCountry,
         city: this.newCity,
@@ -258,7 +258,7 @@ export default {
         postcode: this.newPostcode
       }
 
-      api.addAddress(address);
+      await api.addAddress(address);
       this.addresses.push(address);
 
       this.newCountry = '';

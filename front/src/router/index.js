@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import CartView from '../views/CartView.vue'
+import CheckoutView from '../views/CheckoutView.vue'
 
 Vue.use(VueRouter)
 
@@ -37,7 +39,17 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
-  }
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: CheckoutView
+  },
 ]
 
 const router = new VueRouter({
