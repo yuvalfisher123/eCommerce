@@ -35,4 +35,7 @@ export default {
     clearCart: async () => {
         return (await axiosInstance.delete(`/users/cart`));
     },
+    sendFeedback: async (message) => {
+        return (await axiosInstance.post(`/feedback`, {message: message}));
+    }
 }

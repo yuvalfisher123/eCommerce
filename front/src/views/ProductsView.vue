@@ -61,7 +61,7 @@ export default {
       return this.sortedProducts.slice((this.page-1)*20, this.page*20)
     },
     sortedProducts() {
-      return this.products.sort((a,b) => this.invert*String(a[this.sorter]).localeCompare(String(b[this.sorter])));
+      return [...this.products].sort((a,b) => this.invert*String(a[this.sorter]).localeCompare(String(b[this.sorter])));
     }
   },
   watch: {
