@@ -137,7 +137,7 @@
               <span class="fw-bold">name: </span>
               <span>{{  card.name_of_holder }}, <br></span>
               <span class="fw-bold">experation: </span>
-              <span>{{  card.experation }}, <br></span>
+              <span>{{  (new Date(card.experation)).toLocaleString("en-US", {year: 'numeric', month:'numeric'}) }}, <br></span>
             </div>
           </div>
           </div>
