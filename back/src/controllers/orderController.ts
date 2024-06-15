@@ -1,48 +1,55 @@
+import { HttpError } from "../httpError";
 import { addOrderService, deleteOrderService, getOrderSevice, updateOrderService, addOrderForUserService } from "../services/orderService";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export const getOrderController = async (req : Request, res : Response) => {
+export const getOrderController = async (req : Request, res : Response, next: NextFunction) => {
     try {
-        res.json(await getOrderSevice(req, res)).status(200);
+        const order = await getOrderSevice(req, res);
+
+        if (!order) {
+            throw new HttpError(404, "order not found");
+        }
+
+        res.status(200).json(order);
     } catch (error) {
-        res.send('server error').status(500);
+        next(error);
     }
 }
 
-export const addOrderController = async (req : Request, res : Response) => {
+export const addOrderController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         res.status(201).json({'message': 'order added',
             'order': await addOrderService(req, res)
         });
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
 
-export const updateOrderController = async (req : Request, res : Response) => {
+export const updateOrderController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         await updateOrderService(req, res)
         res.status(200).send('order data updated');
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
 
-export const deleteOrderController = async (req : Request, res : Response) => {
+export const deleteOrderController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         await deleteOrderService(req, res)
         res.status(200).send('order deleted');
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
 
-export const addOrderForUserController = async (req : Request, res : Response) => {
+export const addOrderForUserController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         res.status(201).json({'message': 'order added',
             'order': await addOrderForUserService(req, res)
         });
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
