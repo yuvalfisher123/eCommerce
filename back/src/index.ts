@@ -6,7 +6,6 @@ import orderRouter from './routes/orderRouter';
 import productRouter from './routes/productRouter';
 import loginRouter from './routes/loginRouter';
 import feedbackRouter from './routes/feedbackRouter';
-import errorMiddleWare from './middleWare/errorMiddleWare';
 
 const app: Application = express();
 const port = 8000;

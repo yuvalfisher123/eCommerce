@@ -34,7 +34,7 @@ export const addCardService = async (req : Request, res : Response) => {
 } 
 
 export const deleteCardService = async (req : Request, res : Response) => {
-    await creditCardRepository.delete({
+  return await creditCardRepository.delete({
         where: {
             id: +req.params.cardId,
         }

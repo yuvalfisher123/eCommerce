@@ -1,39 +1,53 @@
+import { HttpError } from "../httpError";
 import { getCardSevice,
     getCardsSevice,
     addCardService,
     deleteCardService } from "../services/creditCardService";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export const getCardController = async (req : Request, res : Response) => {
+export const getCardController = async (req : Request, res : Response, next: NextFunction) => {
     try {
-        res.status(200).json(await getCardSevice(req, res));
+        const card = await getCardSevice(req, res);
+
+        if (!card) {
+            throw new HttpError(404, "card not found");
+        }    
+
+        res.status(200).json(card);
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
 
-export const getCardsController = async (req : Request, res : Response) => {
+export const getCardsController = async (req : Request, res : Response, next: NextFunction) => {
     try {
-        res.status(200).json(await getCardsSevice(req, res));
+        const cards = await getCardsSevice(req, res);
+
+        if (!cards) {
+            throw new HttpError(404, "user's cards not found");
+        } 
+
+        res.status(200).json(cards);
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
+
 }
 
-export const addCardController = async (req : Request, res : Response) => {
+export const addCardController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         await addCardService(req, res);        
         res.status(201).send('card added');
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
 
-export const deleteCardController = async (req : Request, res : Response) => {
+export const deleteCardController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         await deleteCardService(req, res)
         res.status(200).send('card deleted');
     } catch (error) {
-        res.status(500).send('server error');
+        next(error);
     }
 }
