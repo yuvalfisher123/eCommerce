@@ -12,6 +12,15 @@ export const loginService = async (req : Request, res : Response) => {
         where: {
             username: req.body.username,
             password: req.body.password
+        },
+        select: {
+            id: true,
+            email: true,
+            username: true,
+            first_name: true,
+            last_name: true,
+            addresses: true,
+            cart: true
         }
     })
 
@@ -29,5 +38,5 @@ export const loginService = async (req : Request, res : Response) => {
         }
     )    
 
-    return token;
+    return {"token": token, "user":user};
 }

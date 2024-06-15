@@ -85,9 +85,14 @@ model CreditCard {
   id Int @default(autoincrement()) @id
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user_id Int 
-  card_number Int
+  card_number String
   cvc Int
   name_of_holder String
   experation DateTime
   orders Order[]
+}
+
+model FeedBack {
+  id Int @default(autoincrement()) @id
+  message String 
 }

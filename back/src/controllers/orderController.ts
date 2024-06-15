@@ -11,38 +11,38 @@ export const getOrderController = async (req : Request, res : Response) => {
 
 export const addOrderController = async (req : Request, res : Response) => {
     try {
-        res.json({'message': 'order added',
+        res.status(201).json({'message': 'order added',
             'order': await addOrderService(req, res)
-        }).status(201);
+        });
     } catch (error) {
-        res.send('server error').status(500);
+        res.status(500).send('server error');
     }
 }
 
 export const updateOrderController = async (req : Request, res : Response) => {
     try {
         await updateOrderService(req, res)
-        res.send('order data updated').status(200);
+        res.status(200).send('order data updated');
     } catch (error) {
-        res.send('server error').status(500);
+        res.status(500).send('server error');
     }
 }
 
 export const deleteOrderController = async (req : Request, res : Response) => {
     try {
         await deleteOrderService(req, res)
-        res.send('order deleted').status(200);
+        res.status(200).send('order deleted');
     } catch (error) {
-        res.send('server error').status(500);
+        res.status(500).send('server error');
     }
 }
 
 export const addOrderForUserController = async (req : Request, res : Response) => {
     try {
-        res.json({'message': 'order added',
+        res.status(201).json({'message': 'order added',
             'order': await addOrderForUserService(req, res)
-        }).status(201);
+        });
     } catch (error) {
-        res.send('server error').status(500);
+        res.status(500).send('server error');
     }
 }

@@ -21,18 +21,18 @@ const router = express.Router();
 
 router.use(auth);
 
-router.get('/', getAllUserController);
-router.get('/:userId', getUserController);
-router.patch('/:userId', updateUserController);
-router.post('/address/:userId', addUserAddressController);
-router.delete('/:userId', deleteUserController);
-router.post('/:userId/cart', addToCartController);
-router.get('/:userId/cart', getCartController);
-router.patch('/:userId/cart/:productId', changeQuantityController);
-router.delete('/:userId/cart/:productId', deleteProductController);
-router.delete('/:userId/cart', clearCartController);
+router.get('/all', getAllUserController);
+router.get('/', getUserController);
+router.patch('/', updateUserController);
+router.post('/address', addUserAddressController);
+router.delete('/', deleteUserController);
+router.post('/cart', addToCartController);
+router.get('/cart', getCartController);
+router.patch('/cart/:productId', changeQuantityController);
+router.delete('/cart/:productId', deleteProductController);
+router.delete('/cart', clearCartController);
 router.get('/cards/:cardId', getCardController);
-router.get('/:userId/cards', getCardsController);
+router.get('/cards', getCardsController);
 router.post('/cards', addCardController);
 router.delete('/cards/:cardId', deleteCardController);
 
