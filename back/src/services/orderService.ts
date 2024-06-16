@@ -48,20 +48,21 @@ export const deleteOrderService = async (req : Request, res : Response) => {
 export const addOrderForUserService = async (req : Request, res : Response) => {
     return await orderRepository.create({
         data : {
-            user_id: +req.params.userId,
+            user_id: +res.locals.userId,
             status: "received",
             payment_id: +req.body.payment_id,
             products:{
                 create: await cartRepository.findMany({
                     where : {
-                        user_id: +req.params.userId
+                        user_id: +res.locals.userId
                     },
                     select: {
                         product_id: true,
                         quantity: true
                     }
                 })
-            }
+            },
+            address_id: +req.body.address_id
         }
     });
 } 

@@ -30,7 +30,8 @@ export const getProductsSevice = async (req : Request, res : Response) => {
             id:true,
             name: true,
             price: true,
-            description: true
+            description: true,
+            image: true
         }
     });
 } 

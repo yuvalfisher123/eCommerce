@@ -5,8 +5,8 @@
         Order By
       </button>
       <ul class="dropdown-menu">
-        <li><button class="dropdown-item" @click="sorter = 'price'; invert = -1">Price Low to High</button></li>
-        <li><button class="dropdown-item" @click="sorter = 'price'; invert = 1">Price High to Low</button></li>
+        <li><button class="dropdown-item" @click="sorter = 'price'; invert = 1">Price Low to High</button></li>
+        <li><button class="dropdown-item" @click="sorter = 'price'; invert = -1">Price High to Low</button></li>
         <li><button class="dropdown-item" @click="sorter = 'name'; invert = 1">Name A-Z</button></li>
         <li><button class="dropdown-item" @click="sorter = 'name'; invert = -1">Name Z-A</button></li>
       </ul>
@@ -23,8 +23,8 @@
     </div>
   <ul class="pagination mx-auto d-flex justify-content-center">
     <li v-if="page != 1" class="page-item"><a class="page-link" @click="page = page - 1" href="#">Previous</a></li>
-    <li class="page-item" v-for="index in Math.ceil(products.length / 20)" :key="index"><a @click="page = index" class="page-link" href="#">{{index}}</a></li>
-    <li v-if="page != Math.ceil(products.length / 20)" class="page-item"><a class="page-link" @click="page = page + 1" href="#">Next</a></li>
+    <li class="page-item" v-for="index in Math.ceil(products.length / 8)" :key="index"><a @click="page = index" class="page-link" href="#">{{index}}</a></li>
+    <li v-if="page != Math.ceil(products.length / 8)" class="page-item"><a class="page-link" @click="page = page + 1" href="#">Next</a></li>
   </ul>
 
   </div>
@@ -58,10 +58,14 @@ export default {
   },
   computed: {
     productsOnPage() {
-      return this.sortedProducts.slice((this.page-1)*20, this.page*20)
+      return this.sortedProducts.slice((this.page-1)*8, this.page*8)
     },
     sortedProducts() {
-      return [...this.products].sort((a,b) => this.invert*String(a[this.sorter]).localeCompare(String(b[this.sorter])));
+      if (this.sorter === "name") {
+        return [...this.products].sort((a,b) => this.invert * String(a[this.sorter]).localeCompare(String(b[this.sorter])));
+      } else {
+        return [...this.products].sort((a,b) => this.invert * (a[this.sorter] - b[this.sorter]));
+      }
     }
   },
   watch: {

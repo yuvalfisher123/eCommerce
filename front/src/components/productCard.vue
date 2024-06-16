@@ -76,6 +76,7 @@
   <style scoped>
   .card {
     width: 22vw;
+    min-width: 330px;
   }
   </style>
   

@@ -2,6 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from "express";
+import { HttpError } from '../httpError';
 
 dotenv.config();
 
@@ -12,11 +13,20 @@ export const loginService = async (req : Request, res : Response) => {
         where: {
             username: req.body.username,
             password: req.body.password
+        },
+        select: {
+            id: true,
+            email: true,
+            username: true,
+            first_name: true,
+            last_name: true,
+            addresses: true,
+            cart: true
         }
     })
 
     if (!user) {
-        throw new Error('wrong user details');
+        throw new HttpError(401, 'wrong user details');
     }
 
     const token = jwt.sign(
@@ -29,5 +39,5 @@ export const loginService = async (req : Request, res : Response) => {
         }
     )    
 
-    return token;
+    return {"token": token, "user":user};
 }

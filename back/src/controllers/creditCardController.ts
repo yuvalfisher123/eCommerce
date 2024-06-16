@@ -1,40 +1,53 @@
+import { HttpError } from "../httpError";
 import { getCardSevice,
     getCardsSevice,
     addCardService,
     deleteCardService } from "../services/creditCardService";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export const getCardController = async (req : Request, res : Response) => {
+export const getCardController = async (req : Request, res : Response, next: NextFunction) => {
     try {
-        res.json(await getCardSevice(req, res)).status(200);
+        const card = await getCardSevice(req, res);
+
+        if (!card) {
+            throw new HttpError(404, "card not found");
+        }    
+
+        res.status(200).json(card);
     } catch (error) {
-        res.send('server error').status(500);
+        next(error);
     }
 }
 
-export const getCardsController = async (req : Request, res : Response) => {
+export const getCardsController = async (req : Request, res : Response, next: NextFunction) => {
     try {
-        res.json(await getCardsSevice(req, res)).status(200);
+        const cards = await getCardsSevice(req, res);
+
+        if (!cards) {
+            throw new HttpError(404, "user's cards not found");
+        } 
+
+        res.status(200).json(cards);
     } catch (error) {
-        res.send('server error').status(500);
+        next(error);
+    }
+
+}
+
+export const addCardController = async (req : Request, res : Response, next: NextFunction) => {
+    try {
+        await addCardService(req, res);        
+        res.status(201).send('card added');
+    } catch (error) {
+        next(error);
     }
 }
 
-export const addCardController = async (req : Request, res : Response) => {
-    try {
-        res.json({'message': 'card added',
-            'order': await addCardService(req, res)
-        }).status(201);
-    } catch (error) {
-        res.send('server error').status(500);
-    }
-}
-
-export const deleteCardController = async (req : Request, res : Response) => {
+export const deleteCardController = async (req : Request, res : Response, next: NextFunction) => {
     try {
         await deleteCardService(req, res)
-        res.send('card deleted').status(200);
+        res.status(200).send('card deleted');
     } catch (error) {
-        res.send('server error').status(500);
+        next(error);
     }
 }
