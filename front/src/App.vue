@@ -95,8 +95,4 @@ nav a.router-link-exact-active {
   left: 46vw;
 }
 
-#view {
-  height: 85vh;
-}
-
 </style>
